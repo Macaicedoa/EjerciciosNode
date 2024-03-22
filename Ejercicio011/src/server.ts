@@ -2,6 +2,7 @@ import express from "express";
 import "dotenv/config"
 import "express-async-errors"
 import morgan from "morgan";
+import { getAll, getOneByID,create,updateById,deleteByID } from "./controllers/planets.js"
 
 const app = express()
 const port = process.env.PORT;
@@ -9,45 +10,16 @@ const port = process.env.PORT;
 app.use(morgan("dev"))
 app.use(express.json())
 
-type Planet = {
-    id:number;
-    name:string;
-}
 
-type Planets = Planet[];
+app.get('/api/planets',getAll)
 
-let planets: Planets = [
-    {
-      id: 1,
-      name: "Earth",
-    },
-    {
-      id: 2,
-      name: "Mars",
-    },
-  ];
+app.get('/api/planets/:id',getOneByID)
 
-app.get('/api/planets',(req,res)=>{
-    res.status(200).json({planets})
-})
+app.post('/api/planets',create)
 
-app.get('/api/planets/:id',(req,res)=>{
-    const {id} = req.params;
-    const planet = planets.find(p=>p.id===Number(id));
+app.put('/api/planets/:id',updateById)
 
-    res.status(200).json({planet})
-})
-
-app.post('/api/planets',(req,res)=>{
-  console.log(req.body);
-  const {id,name} = req.body
-  const newPlanet = {id,name}
-  planets = [...planets,newPlanet];
-
-  console.log(planets)
-
-  res.status(201).json({msg: "The planet was created"});
-})
+app.delete('/api/planets/:id',deleteByID)
 
 app.listen(port,()=>{
    console.log(`http://localhost:${port}`) 
