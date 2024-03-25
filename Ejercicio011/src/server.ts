@@ -3,8 +3,11 @@ import "dotenv/config"
 import "express-async-errors"
 import morgan from "morgan";
 import { getAll, getOneByID,create,updateById,deleteByID,createImage } from "./controllers/planets.js"
-import {logIn,signUp} from "./controllers/users.js"
+import {logIn,signUp,logOut} from "./controllers/users.js"
+import authorize from "./authorize.js";
+import "./passport.js"
 import multer from "multer";
+
 
 const storage = multer.diskStorage({
    destination: (req,file,cb)=>{
@@ -37,6 +40,7 @@ app.post('/api/planets/:id/image', upload.single("image") ,createImage)
 
 app.post("/api/users/login", logIn)
 app.post("/api/users/signup", signUp)
+app.post("/api/users/logout", authorize, logOut)
 
 app.listen(port,()=>{
    console.log(`http://localhost:${port}`) 
