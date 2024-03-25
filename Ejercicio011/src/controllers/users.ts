@@ -25,4 +25,17 @@ const logIn = async(req:Request,res:Response)=>{
     }
 }
 
-export default logIn
+const signUp = async(req:Request,res:Response)=>{
+    const {username,password} = req.body
+    const user = await db.oneOrNone(`SELECT * FROM users WHERE username=$1`,username)
+
+    if(user){
+        res.status(409).json({msg: "USer already exists"})
+    }else{
+        const {id} = await db.one(`INSERT INTO users (username,password) VALUES ($1,$2) RETURNING id`,[username,password]);
+        res.status(201).json({id, msg: "User created"})
+    }
+
+}
+
+export {logIn,signUp}
