@@ -45,4 +45,3 @@ app.post("/api/users/logout", authorize, logOut)
 app.listen(port,()=>{
    console.log(`http://localhost:${port}`) 
 })
-
