@@ -3,6 +3,7 @@ import "dotenv/config"
 import "express-async-errors"
 import morgan from "morgan";
 import { getAll, getOneByID,create,updateById,deleteByID,createImage } from "./controllers/planets.js"
+import logIn from "./controllers/users.js"
 import multer from "multer";
 
 const storage = multer.diskStorage({
@@ -16,6 +17,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage})
 const app = express()
 const port = process.env.PORT;
+
 
 app.use(morgan("dev"))
 app.use(express.json())
@@ -32,6 +34,8 @@ app.put('/api/planets/:id',updateById)
 app.delete('/api/planets/:id',deleteByID)
 
 app.post('/api/planets/:id/image', upload.single("image") ,createImage)
+
+app.post("/api/users/login", logIn)
 
 app.listen(port,()=>{
    console.log(`http://localhost:${port}`) 
