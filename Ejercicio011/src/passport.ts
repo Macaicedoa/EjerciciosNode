@@ -16,7 +16,6 @@ passport.use(
         async(payload,done)=>{
             try{
                 const user = await db.one(`SELECT * FROM user WHERE id=$1`,payload.id)
-                console.log(user);
                 return user ? done(null,user) : done(new Error("User not found"))
             }catch(error){
                 done(error)
