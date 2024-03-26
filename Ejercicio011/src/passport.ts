@@ -14,10 +14,9 @@ passport.use(
             jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
         },
         async(payload,done)=>{
-            const user = db.one(`SELECT * FROM user WHERE id=$1`,payload.id)
-            console.log(user);
-
             try{
+                const user = await db.one(`SELECT * FROM user WHERE id=$1`,payload.id)
+                console.log(user);
                 return user ? done(null,user) : done(new Error("User not found"))
             }catch(error){
                 done(error)

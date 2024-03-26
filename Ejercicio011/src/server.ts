@@ -36,7 +36,7 @@ app.put('/api/planets/:id',updateById)
 
 app.delete('/api/planets/:id',deleteByID)
 
-app.post('/api/planets/:id/image', upload.single("image") ,createImage)
+app.post('/api/planets/:id/image', authorize, upload.single("image") ,createImage)
 
 app.post("/api/users/login", logIn)
 app.post("/api/users/signup", signUp)
