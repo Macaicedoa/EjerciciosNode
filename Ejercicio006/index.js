@@ -1,10 +1,7 @@
-const figlet = require("figlet");
+import { writeFile } from 'node:fs';
 
-figlet("Woohoo!!", function (err, data) {
-    if (err) {
-      console.log("Something went wrong...");
-      console.dir(err);
-      return;
-    }
-    console.log(data);
-  });
+writeFile('message.txt', 'Hello Node.js', 'utf8', function (err, file) {
+  if (err) throw err;
+  console.log('Saved!');
+}); 
+
